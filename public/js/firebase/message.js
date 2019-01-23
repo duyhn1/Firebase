@@ -56,7 +56,7 @@ class Message {
     SendChat(msg) {
         this.messages.push({ 
             uid: this.currentUser.uid, 
-            user: this.currentUser.displayName,
+            user: this.currentUser.displayName || this.currentUser.email,
             message: msg,
             timestamp: Date.now()
         });

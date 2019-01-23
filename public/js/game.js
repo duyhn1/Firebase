@@ -5,9 +5,10 @@ const data = {
     h: 'Hòa',
     inv: 'Invalid'
 };
+let fbs;
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope) {
-    let fbs = new FireBaseClass(true);
+    fbs = new FireBaseClass(true);
     firebase.auth().onAuthStateChanged(user => {
         if (user) {
             $scope.user = user.uid;

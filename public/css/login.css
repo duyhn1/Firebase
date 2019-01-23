@@ -8,10 +8,24 @@
     transition-duration: 0.3s;
     background-size: 100% 100%;
     background-image: url(/img/btn_google_normal.png);
+    margin: 0 10px 10px 0;
 }
 .btn-google:hover {
     background-image: url(/img/btn_google_focus.png);
 }
 .btn-google:active {
     background-image: url(/img/btn_google_pressed.png);
+}
+.btn-facebook {
+    display: inline-block;
+    width: 187px;
+    height: 41px;
+    transition-duration: 0.3s;
+    background-size: 100% 100%;
+    background-image: url(/img/btn_facebook.png);
+    transform: translate(-5px, -12px)
+}
+.errMsg {
+    color: red;
+    margin: 5px 0;
 }

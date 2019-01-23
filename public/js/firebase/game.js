@@ -42,7 +42,7 @@ class Game {
         var data = {};
         data[team] = {};
         data[team].uid = this.currentUser.uid;
-        data[team].name = this.currentUser.displayName;
+        data[team].name = this.currentUser.displayName || this.currentUser.email;
         this.team.update(data);
     }
     Remove(team) {

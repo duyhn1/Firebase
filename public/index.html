@@ -3,6 +3,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -16,18 +17,19 @@
     <div class="container" style="position:absolute; top:50%; left:50%; transform: translate(-50%,-50%)">
         <div class="row">
             <div style="text-align: center; font-weight: bold; font-size: 28px; margin-bottom: 20px; color: gray">LOGIN</div>
-            <!-- <div class="col-xs-offset-4 col-xs-4">
-                <form method="post" action="login" style="text-align: center">
-                    <input name="username" class="form-control" placeholder="username" required />
-                        <% if(typeof error != 'undefined') { %>
-                            <p stype="margin-top: 10px; color: red"><%= error %></p>
-                        <% } %>
-                    <input style="margin-top: 10px; padding-left: 30px; padding-right: 30px" type="submit" class="btn btn-success" value="Go" />
-                </form>
-            </div> -->
-            <div class="btn-login hide">
-                <div class="btn-google" onclick="fbs.LoginMethod.GoogleLogin()"></div>
+            <div class="col-md-offset-4 col-md-4">
+                <div style="text-align: center">
+                    <input id="txtMail" type="text" class="form-control" placeholder="email" />
+                    <input id="txtPassword" type="password" class="form-control" placeholder="password"/>
+                    <p class="errMsg"></p>
+                    <input style="margin-top: 10px; padding-left: 30px; padding-right: 30px" type="button" onclick="Login()" class="btn btn-primary" value="Login" />
+                    <input style="margin-top: 10px; padding-left: 30px; padding-right: 30px" type="button" onclick="Register()" class="btn btn-success" value="Register" />
+                </div>
             </div>
+        </div>
+        <div class="row btn-login hide" style="margin-top: 20px">
+            <div class="btn-google" onclick="fbs.LoginMethod.GoogleLogin()"></div>
+            <div class="btn-facebook" onclick="fbs.LoginMethod.FacebookLogin()"></div>
         </div>
     </div>
     <script>
@@ -41,6 +43,32 @@
                 }
             });
         })
+        function Login() {
+            var mail = $('#txtMail').val();
+            var password = $('#txtPassword').val();
+            if (mail && password) {
+                fbs.LoginMethod.EmailLogin(mail, password);
+            } else {
+                $('.errMsg').text('Please input email and password');
+            }
+        }
+        function Register() {
+            var mail = $('#txtMail').val();
+            var password = $('#txtPassword').val();
+            if (mail && password) {
+                fbs.LoginMethod.Register(mail, password);
+            } else {
+                $('.errMsg').text('Please input email and password');
+            }
+        }
   </script>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=314912595369567&autoLogAppEvents=1';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
 </body>
 </html>

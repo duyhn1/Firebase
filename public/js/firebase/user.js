@@ -24,7 +24,7 @@ class User {
             // if (this.currentUser.uid === data.key) {
             //     this.userRef.set({
             //         uid: this.currentUser.uid,
-            //         name: this.currentUser.displayName,
+            //         name: this.currentUser.displayName || this.currentUser.email,
             //         country: $scope.country
             //     });
             // } else {
@@ -52,7 +52,7 @@ class User {
         });
         var connection = this.connections.push({
             uid: this.currentUser.uid,
-            name: this.currentUser.displayName,
+            name: this.currentUser.displayName || this.currentUser.email,
         });
         firebase.database().ref('public/connections/' + connection.key).onDisconnect().remove();
         this.userRef.once('value', (data) => {
