@@ -1,0 +1,79 @@
+.chatbox {
+    z-index: 1;
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+    width: 500px;
+    border: 1px solid #e0e0e0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 5px;
+    box-sizing: content-box;
+    background-color: whitesmoke;
+}
+.chat-header {
+    background-color: #42a5f5;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 3px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+.chat-container {
+    height: 400px;
+    padding: 10px;
+    overflow-y: auto;
+}
+.message {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: flow-root;
+}
+.message:after {
+    clear: both;
+}
+.send-container {
+    display: flex;
+    flex-direction: row;
+}
+.message .user {
+    font-weight: bold;
+    display: inline-block;
+    max-width: 150px;
+}
+.right {
+    float: right;
+}
+.message .content {
+    margin-left: 10px;
+    margin-right: 10px;
+    display: inline-block;
+    word-break: break-word;
+    white-space: pre-line;
+    background-color: #eeeeee;
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+.message .content.me {
+    background-color: #81d4fa;
+}
+.message .time {
+    margin-left: 10px;
+    display: inline-block;
+    font-style: italic;
+    font-size: 12px;
+}
+.send-container .txt-chat {
+    flex-grow: 1;
+}
+.notice {
+    color: gray;
+    margin: 10px 20px;
+    text-align: center;
+}
+.notice .user {
+    font-weight: bold;
+}

@@ -1,0 +1,17 @@
+.btn-login {
+    text-align: center;
+}
+.btn-google {
+    display: inline-block;
+    width: 191px;
+    height: 46px;
+    transition-duration: 0.3s;
+    background-size: 100% 100%;
+    background-image: url(/img/btn_google_normal.png);
+}
+.btn-google:hover {
+    background-image: url(/img/btn_google_focus.png);
+}
+.btn-google:active {
+    background-image: url(/img/btn_google_pressed.png);
+}

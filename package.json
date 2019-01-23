@@ -1,0 +1,28 @@
+{
+  "name": "firebaseprj",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duyhn1/FirebasePrj.git"
+  },
+  "author": "duyhn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/duyhn1/FirebasePrj/issues"
+  },
+  "homepage": "https://github.com/duyhn1/FirebasePrj#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "node-logger": "0.0.1",
+    "socket.io": "^2.2.0"
+  },
+  "engines": { "node": "8" }
+}

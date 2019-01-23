@@ -1,0 +1,156 @@
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Game</title>
+    <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="/css/game.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script src="js/firebase.js">
+    </script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+    <div class="chatbox">
+        <div class="chat-header">Chat</div>
+        <div id="chat-container" class="chat-container">
+            
+        </div>
+        <div class="send-container">
+            <textarea id="txtChat" class="form-control txt-chat" ng-keyup="KeyPress($event)" rows="3" ng-model="txtChat" placeholder="message chat"></textarea>
+            <button class="btn btn-success" ng-click="SendChat()">Send</button>
+        </div>
+    </div>
+    <div class="container-fluid hide">
+        <div class="row">
+            <div class="col-xs-2" style="text-align: center">
+                <table id="tbl-user" class="table table-responsive table-bordered">
+                    <th>THIÊN TRIỀU</th>
+                    <th>CRM TRIỀU</th>
+                    <th>KHÁN GIẢ</th>
+                    <tr>
+                        <td>{{result['THIÊN TRIỀU']}}</td>
+                        <td>{{result['CRM TRIỀU']}}</td>
+                        <td></td>
+                    </tr>
+                    <tr ng-repeat="u in users">
+                        <td>{{u.country == 'THIÊN TRIỀU' ? u.name : ''}}</td>
+                        <td>{{u.country == 'CRM TRIỀU' ? u.name : ''}}</td>
+                        <td>{{u.country != 'THIÊN TRIỀU' && u.country != 'CRM TRIỀU' ? u.name : ''}}</td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-primary" ng-hide="country=='THIÊN TRIỀU'" ng-click="ChangeCountry('THIÊN TRIỀU')">Join</button></td>
+                        <td><button class="btn btn-primary" ng-hide="country=='CRM TRIỀU'" ng-click="ChangeCountry('CRM TRIỀU')">Join</button></td>
+                        <td><button class="btn btn-primary" ng-hide="!country" ng-click="ChangeCountry('')">Join</button></td>
+                    </tr>
+                </table>
+                <button class="btn btn-info" onclick="fbs.LoginMethod.Logout()">Logout</button>
+            </div>
+            <div class="col-xs-6">
+                <div class="row" style="margin-top: 30px;">
+                    <!-- Team A Area -->
+                    <div class="col-xs-6" style="text-align: center">
+                        <label style="font-weight: bold">Team A</label>&nbsp;<label style="font-size: 16px; color:green; background-color: yellow">{{teamA.name}}</label>
+                        <div style="margin: 10px 0; height: 34px" >
+                            <button class="btn btn-info" ng-hide="teamA || !country" ng-click="Join('A')">Up</button>
+                            <button class="btn btn-danger" ng-show="teamA && teamA.uid==user && country" ng-click="Remove('A')">Down</button>
+                        </div>
+                        <div ng-show="teamA && teamA.uid==user && country">
+                            <textarea class="form-control" rows="15" ng-model="txtA"></textarea>
+                            <button ng-show="!statusA" class="btn btn-primary" ng-click="Ready('A')">Ready</textarea>
+                        </div>
+                        <div ng-show="statusA">
+                            <label style="color: red; font-size: 18; font-weight: bold">Ready</label>
+                        </div>
+                    </div>
+                    <!-- Team A Area -->
+
+                    <!-- Team B Area -->
+                    <div class="col-xs-6" style="text-align: center">
+                        <label style="font-weight: bold">Team B</label>&nbsp;<label style="font-size: 16px; color:green; background-color: yellow">{{teamB.name}}</label>
+                        <div style="margin: 10px 0; height: 34px" >
+                            <button class="btn btn-info" ng-hide="teamB || !country" ng-click="Join('B')">Up</button>
+                            <button class="btn btn-danger" ng-show="teamB && teamB.uid==user && country" ng-click="Remove('B')">Down</button>
+                        </div>
+                        <div ng-show="teamB && teamB.uid==user && country">
+                            <textarea class="form-control" rows="15" ng-model="txtB"></textarea>
+                            <button ng-show="!statusB" class="btn btn-primary" ng-click="Ready('B')">Ready</textarea>
+                        </div>
+                        <div ng-show="statusB">
+                            <label style="color: red; font-size: 18; font-weight: bold">Ready</label>
+                        </div>
+                    </div>
+                    <!-- Team B Area -->
+                </div>
+                <!-- <div style="text-align: center;margin: 20px">
+                    <button class="btn btn-success" ng-click="Calculate()">Calculate</button>
+                </div> -->
+            </div>
+        </div>
+        
+        <div id="rslt" class="row hide" style="text-align: center">
+            <label class="lbl-rslt">{{total.a}} - {{total.b}}</label>
+            <table id="" class="table table-responsive table-bordered">
+                <thead>
+                    <th>#</th>
+                    <th>A1</th>
+                    <th>A2</th>
+                    <th>A3</th>
+                    <th>A4</th>
+                    <th>A5</th>
+                    <th>A6</th>
+                    <th colspan="3">Result</th>
+                    <th>B1</th>
+                    <th>B2</th>
+                    <th>B3</th>
+                    <th>B4</th>
+                    <th>B5</th>
+                    <th>B6</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat='r in rslt'>
+                        <td>{{$index + 1}}</td>
+                        <td ng-class="r.c1">{{r.a1}}</td>
+                        <td ng-class="r.c2">{{r.a2}}</td>
+                        <td ng-class="r.c3">{{r.a3}}</td>
+                        <td ng-class="r.c4">{{r.a4}}</td>
+                        <td ng-class="r.c5">{{r.a5}}</td>
+                        <td ng-class="r.c6">{{r.a6}}</td>
+                        <td class="result" ng-class="r.clazz">{{r.rslt1}}</td>
+                        <td class="result" ng-class="r.clazz">{{r.rslt2}}</td>
+                        <td class="result" ng-class="r.clazz">{{r.rslt3}}</td>
+                        <td ng-class="r.d1">{{r.b1}}</td>
+                        <td ng-class="r.d2">{{r.b2}}</td>
+                        <td ng-class="r.d3">{{r.b3}}</td>
+                        <td ng-class="r.d4">{{r.b4}}</td>
+                        <td ng-class="r.d5">{{r.b5}}</td>
+                        <td ng-class="r.d6">{{r.b6}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="/js/game.js"></script>
+    <script>
+        $(document).ready(() => {
+            if (!Notification) {
+                alert('Desktop notifications not available in your browser. Try Chrome.'); 
+                return;
+            }
+            if (Notification.permission !== "granted") {
+                Notification.requestPermission();
+            };
+            $(document).on('click', '.chat-header', function() {
+                $('.chat-container, .send-container').slideToggle('fast');
+            })
+        });
+        
+    </script>
+</body>
+</html>

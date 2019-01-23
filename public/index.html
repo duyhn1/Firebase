@@ -1,0 +1,46 @@
+
+<!-- views/pages/index.ejs -->
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script src="js/firebase.js"></script>
+    <script src="js/jqueryExtends.js"></script>
+</head>
+<body>
+    <div class="container" style="position:absolute; top:50%; left:50%; transform: translate(-50%,-50%)">
+        <div class="row">
+            <div style="text-align: center; font-weight: bold; font-size: 28px; margin-bottom: 20px; color: gray">LOGIN</div>
+            <!-- <div class="col-xs-offset-4 col-xs-4">
+                <form method="post" action="login" style="text-align: center">
+                    <input name="username" class="form-control" placeholder="username" required />
+                        <% if(typeof error != 'undefined') { %>
+                            <p stype="margin-top: 10px; color: red"><%= error %></p>
+                        <% } %>
+                    <input style="margin-top: 10px; padding-left: 30px; padding-right: 30px" type="submit" class="btn btn-success" value="Go" />
+                </form>
+            </div> -->
+            <div class="btn-login hide">
+                <div class="btn-google" onclick="fbs.LoginMethod.GoogleLogin()"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            fbs = new FireBaseClass();
+            fbs.firebase.auth().onAuthStateChanged(user => {
+                if (user) {
+                    window.location.href = '/xuxi';
+                } else {
+                    $('.btn-login').removeClass('hide');
+                }
+            });
+        })
+  </script>
+</body>
+</html>

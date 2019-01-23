@@ -1,0 +1,28 @@
+.win {
+    background: lightgreen;
+}
+.lose {
+    background: lightpink;
+}
+tr {
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+}
+th {
+    background-color: gray;
+}
+table, th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+.result {
+    font-weight: bold;
+    color: whitesmoke;
+    background-color: darkgreen !important;
+    border-left-width: 2px !important;
+    border-right-width: 2px !important;
+}
+.lbl-rslt {
+    color: darkgreen;
+    font-size: 26px;
+}
