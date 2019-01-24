@@ -43,6 +43,7 @@
     font-weight: bold;
     display: inline-block;
     max-width: 150px;
+    word-break: break-all;
 }
 .right {
     float: right;
