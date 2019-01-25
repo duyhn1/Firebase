@@ -147,7 +147,7 @@
             if (Notification.permission !== "granted") {
                 Notification.requestPermission();
             };
-            $(document).on('click', '.chat-header', function() {
+            $(document).on('click touchstart', '.chat-header', function() {
                 $('.chat-container, .send-container').slideToggle('fast');
             })
         });

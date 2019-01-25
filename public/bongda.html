@@ -1,0 +1,72 @@
+<html >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Soccer</title>
+    <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="/css/game.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script src="js/firebase.js">
+    </script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+    <div class="chatbox">
+        <div class="chat-header">Chat</div>
+        <div id="chat-container" class="chat-container">
+            
+        </div>
+        <div class="send-container">
+            <textarea id="txtChat" class="form-control txt-chat" ng-keyup="KeyPress($event)" rows="3" ng-model="txtChat" placeholder="message chat"></textarea>
+            <button class="btn btn-success" ng-click="SendChat()">Send</button>
+        </div>
+    </div>
+    <div>
+        <table class="table table-responsive table-bordered">
+            <tr>
+                <th colspan="{{match.options.length}}">{{match.details}}</th>
+            </tr>
+            <tr>
+                <th ng-repeat="o in match.options">{{o.team}}</th>
+            </tr>
+            <tr ng-show="isBet" ng-repeat="r in range(1, maxRow)">
+                <td ng-repeat="a in match.options">
+                    {{a.users[r-1]}}
+                </td>
+            </tr>
+            <tr>
+                <td ng-repeat="o in match.options">
+                    <span>{{o.count}} bet</span>
+                </td>
+            </tr>
+            <tr ng-hide="isBet">
+                <td ng-repeat="o in match.options">
+                    <button class="btn btn-info" ng-click="Bet(o.team)">Bet</button>
+                </td>
+            </tr>
+        </table>
+        <p>Deadline bet: {{deadline}}</p>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="/js/soccer.js"></script>
+    <script>
+        $(document).ready(() => {
+            if (!Notification) {
+                alert('Desktop notifications not available in your browser. Try Chrome.'); 
+                return;
+            }
+            if (Notification.permission !== "granted") {
+                Notification.requestPermission();
+            };
+            $(document).on('click touchstart', '.chat-header', function() {
+                $('.chat-container, .send-container').slideToggle('fast');
+            })
+        });
+        
+    </script>
+</body>
+</html>

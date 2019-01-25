@@ -1,11 +1,11 @@
 class Message {
-    constructor(firebase) {
+    constructor(firebase, channel) {
         var isFirstLoad = true;
         var blockNumber = 20;
         var offset;
         var isProgress = false;
         var isOldestMessage = false;
-        this.messages = firebase.database().ref('public/messages');
+        this.messages = firebase.database().ref('public/'+channel+'/messages/');
         var currentUser = this.currentUser = firebase.auth().currentUser;
         this.messages.limitToLast(1).on('child_added', function (data) {
             if (!isFirstLoad) {
@@ -63,7 +63,7 @@ class Message {
         $('#chat-container').scroll(function() {
             if(!isOldestMessage && !isProgress && $(this).scrollTop() == 0) {
                 isProgress = true;
-                firebase.database().ref('public/messages')
+                firebase.database().ref('public/'+channel+'/messages')
                 .orderByKey().limitToLast(blockNumber + 1).endAt(offset).once('value', function (data) {
                     if (Object.keys(data.val()).length < blockNumber + 1) {
                         isOldestMessage = true;

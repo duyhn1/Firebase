@@ -1,12 +1,12 @@
 class Game {
-    constructor(firebase) {
+    constructor(firebase, channel) {
         var $scope = $('body').scope();
         this.firebase = firebase;
         this.currentUser = firebase.auth().currentUser;
-        this.game = firebase.database().ref('public/games/data');
-        this.result = firebase.database().ref('public/games/result');
-        this.ready = firebase.database().ref('public/games/ready');
-        this.team = firebase.database().ref('public/games/team');
+        this.game = firebase.database().ref('public/'+channel+'games/data');
+        this.result = firebase.database().ref('public/'+channel+'games/result');
+        this.ready = firebase.database().ref('public/'+channel+'games/ready');
+        this.team = firebase.database().ref('public/'+channel+'games/team');
         this.connected = firebase.database().ref('.info/connected');
         this.team.on('child_added', (data) => {
             var team = data.key;

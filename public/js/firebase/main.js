@@ -11,13 +11,14 @@ class FireBaseClass {
         this.firebase = firebase;
         this.LoginMethod = new LoginMethod(firebase);
 
-        if (scope) {
+        if (scope && scope.channel) {
             // Init properties
             firebase.auth().onAuthStateChanged(user => {
                 if (user) {
-                    this.User = new User(firebase);
-                    this.Message = new Message(firebase);
-                    this.Game = new Game(firebase);
+                    this.User = new User(firebase, scope.channel);
+                    this.Message = scope.message && new Message(firebase, scope.channel);
+                    this.Game = scope.xuxi && new Game(firebase, scope.channel);
+                    this.Soccer = scope.soccer && new Soccer(firebase, scope.channel);
                 }
             });
         }

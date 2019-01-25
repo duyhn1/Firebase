@@ -4,6 +4,7 @@
     bottom: 0;
     right: 20px;
     width: 500px;
+    max-width: calc(100% - 40px);
     border: 1px solid #e0e0e0;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;

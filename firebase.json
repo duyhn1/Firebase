@@ -12,6 +12,10 @@
         "destination": "/xuxi.html"
       },
       {
+        "source": "/soccer",
+        "destination": "/bongda.html"
+      },
+      {
         "source": "/ready",
         "function": "ready"
       },

@@ -1,10 +1,11 @@
 class User {
-    constructor(firebase) {
+    constructor(firebase, channel) {
         var $scope = $('body').scope();
+        this.channel = channel;
         this.currentUser = firebase.auth().currentUser;
-        this.users = firebase.database().ref('public/users');
-        this.connections = firebase.database().ref('public/connections');
-        this.userRef = firebase.database().ref('public/users/' + this.currentUser.uid);
+        this.users = firebase.database().ref('public/'+channel+'/users');
+        this.connections = firebase.database().ref('public/'+channel+'/connections');
+        this.userRef = firebase.database().ref('public/'+channel+'/users/' + this.currentUser.uid);
         this.connected = firebase.database().ref('.info/connected');
         
         this.users.on('child_added', (data) => {
@@ -13,29 +14,21 @@ class User {
                 $scope.users.push(data.val());
                 $scope.$apply();
                 $('.container-fluid').removeClass('hide');
-                if (data.key != this.currentUser.uid) {
-                    var html = $(`<p class="notice"><span class="user"></span> join chat</p>`);
-                    html.find('.user').text(data.val().name);
-                    $('#chat-container').append(html);
-                }
+                // if (data.key != this.currentUser.uid) {
+                //     var html = $(`<p class="notice"><span class="user"></span> join chat</p>`);
+                //     html.find('.user').text(data.val().name);
+                //     $('#chat-container').append(html);
+                // }
             }
         });
         this.users.on('child_removed', (data) => {
-            // if (this.currentUser.uid === data.key) {
-            //     this.userRef.set({
-            //         uid: this.currentUser.uid,
-            //         name: this.currentUser.displayName || this.currentUser.email,
-            //         country: $scope.country
-            //     });
-            // } else {
-                var idx = $scope.users.findIndex(u => u.uid === data.key);
-                if (idx >= 0) $scope.users.splice(idx, 1);
-                if(!$scope.$$phase) $scope.$apply();
-                if (data.key != this.currentUser.uid) {
-                    var html = $(`<p class="notice"><span class="user"></span> leave chat</p>`);
-                    html.find('.user').text(data.val().name);
-                    $('#chat-container').append(html);
-                }
+            var idx = $scope.users.findIndex(u => u.uid === data.key);
+            if (idx >= 0) $scope.users.splice(idx, 1);
+            if(!$scope.$$phase) $scope.$apply();
+            // if (data.key != this.currentUser.uid) {
+            //     var html = $(`<p class="notice"><span class="user"></span> leave chat</p>`);
+            //     html.find('.user').text(data.val().name);
+            //     $('#chat-container').append(html);
             // }
         });
         this.users.on('child_changed', (data) => {
@@ -54,7 +47,7 @@ class User {
             uid: this.currentUser.uid,
             name: this.currentUser.displayName || this.currentUser.email,
         });
-        firebase.database().ref('public/connections/' + connection.key).onDisconnect().remove();
+        firebase.database().ref('public/'+channel+'/connections/' + connection.key).onDisconnect().remove();
         this.userRef.once('value', (data) => {
             data = data.val() || {};
             $scope.country = data.country;

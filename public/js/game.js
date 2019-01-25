@@ -1,4 +1,3 @@
-const server = 'http://52.194.234.14:8000/'
 const data = {
     a: 'Thắng',
     b: 'Thắng',
@@ -8,13 +7,17 @@ const data = {
 let fbs;
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope) {
-    fbs = new FireBaseClass(true);
+    fbs = new FireBaseClass({
+        channel: 'xuxi',
+        message: true,
+        xuxi: true
+    });
     firebase.auth().onAuthStateChanged(user => {
         if (user) {
             $scope.user = user.uid;
             $scope.$apply();
         } else {
-            window.location.href = '/';
+            window.location.href = '/?url=' + window.location.href;
         }
     });
     
